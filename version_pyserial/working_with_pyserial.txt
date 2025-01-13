@@ -1,0 +1,48 @@
+The updated code connects directly to an Arduino via the serial port and reads incoming data in real-time. Here's an explanation of how it works:
+
+Key Components for Serial Communication:
+PySerial Integration:
+___________________________________________________________________________________________________
+
+The code uses the pyserial library to establish a connection with the Arduino's serial monitor.
+A QTimer is set up to periodically read data from the serial port.
+___________________________________________________________________________________________________
+Arduino Data Format:
+
+The Arduino is expected to send data as a structured string (e.g., "value1,value2,value3,...\n"), where each value corresponds to a telemetry parameter like pressure, altitude, temperature, etc.
+This data format is crucial for parsing and updating the UI.
+___________________________________________________________________________________________________
+Port Selection:
+
+The QComboBox allows the user to select the serial port to which the Arduino is connected.
+The "Refresh" button updates the list of available ports, and the "Connect" button establishes the connection.
+___________________________________________________________________________________________________
+Real-Time Data Reading:
+
+Once connected, the QTimer periodically reads the serial data using serial_port.readline().
+The data is decoded and split into individual values based on the predefined format.
+Updating Telemetry and Graphs:
+
+The parsed values are used to update telemetry fields (e.g., temperature, pressure) and real-time plots.
+Each graph is updated with the new data, simulating live telemetry updates.
+___________________________________________________________________________________________________
+Workflow:
+Setup:
+
+Connect the Arduino to the computer via USB and upload a sketch that sends telemetry data over the serial port.
+Launch the PyQt5 application.
+Port Selection:
+
+Use the dropdown to select the appropriate serial port (e.g., COM3 on Windows or /dev/ttyACM0 on Linux).
+Click "Connect" to establish the connection.
+Real-Time Updates:
+
+The application starts reading data from the Arduino every 100 milliseconds (adjustable via QTimer interval).
+Incoming data is processed and displayed on the UI.
+Graphs and Telemetry Updates:
+
+Graphs are updated with the new data points, plotting values like temperature, altitude, and pressure against time.
+Telemetry fields (e.g., mission time, parachute status) are updated dynamically based on the data received.
+Refresh Functionality:
+
+Pressing the "Refresh" button resets the connection, clears the graphs, and restarts data collection.

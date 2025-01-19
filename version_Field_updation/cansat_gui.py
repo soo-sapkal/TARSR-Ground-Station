@@ -8,9 +8,11 @@ from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QFont, QPixmap
 import os
 from datetime import datetime, timedelta
+import serial
 
 class CanSatGroundControl(QMainWindow):
     def __init__(self):
+        
         super().__init__()
         self.data = None
         self.current_index = 0
@@ -37,17 +39,19 @@ class CanSatGroundControl(QMainWindow):
         # Logo and team info container
         logo_container = QHBoxLayout()
         
-        # Static text labels for logo and team information
-        logo_label = QLabel("TARSR")  # Updated text
-        logo_label.setFont(QFont('Arial', 12, QFont.Bold))
-        logo_label.setFixedSize(50, 50)
+        # Logo
+        logo_label = QLabel("TARSR")  # Text instead of image
+        logo_label.setFont(QFont('Arial', 20, QFont.Bold))
+        logo_label.setFixedSize(120, 50)
         logo_label.setAlignment(Qt.AlignCenter)
-
-        team_id_label = QLabel("2000")  # Updated team ID
-        team_id_label.setFont(QFont('Arial', 12))
-
+        
+        # Team info labels
+        self.team_id_label = QLabel("2000")
+        self.team_id_label.setFont(QFont('Arial', 12))
+        
         logo_container.addWidget(logo_label)
-        logo_container.addWidget(team_id_label)
+        # logo_container.addWidget(QLabel("AEROSPACE"))  # Add AEROSPACE text
+        logo_container.addWidget(self.team_id_label)
         logo_container.addStretch()
         
         top_bar.addLayout(logo_container)
@@ -87,7 +91,7 @@ class CanSatGroundControl(QMainWindow):
         
         # Define telemetry fields
         telemetry_fields = [
-            ("Team ID:", "2000"),
+            ("Team ID:", "2044"),
             ("Mission Time:", "00:00:00"),
             ("Packet Count:", "32"),
             ("Mode:", "S"),
@@ -161,7 +165,7 @@ class CanSatGroundControl(QMainWindow):
         # Bottom bar - Command input
         bottom_layout = QHBoxLayout()
         cmd_input = QLineEdit()
-        cmd_input.setPlaceholderText("CMD,2000,")
+        cmd_input.setPlaceholderText("CMD,2044,")
         send_btn = QPushButton("SEND")
         log_level = QComboBox()
         log_level.addItem("ERROR (lowest)")
